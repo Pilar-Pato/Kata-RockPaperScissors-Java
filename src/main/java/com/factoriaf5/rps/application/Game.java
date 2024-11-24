@@ -14,8 +14,11 @@ public class Game {
         Rock rock = new Rock();
         Paper paper = new Paper();
         Scissors scissors = new Scissors();
+        Lizard lizard = new Lizard();
+        Spock spock = new Spock();
 
         String result = "";
+        
 
         switch (userChoice) {
             case "rock":
@@ -26,6 +29,12 @@ public class Game {
                 break;
             case "scissors":
                 result = play(scissors);
+                break;
+                case "lizard":
+                result = play(lizard);
+                break;
+            case "spock":
+                result = play(spock);
                 break;
             default:
                 System.out.println("Invalid choice!");
@@ -39,7 +48,7 @@ public class Game {
         
     private String play(Object playerChoice) {
        
-        int randomChoice = (int) (Math.random() * 3);
+        int randomChoice = (int) (Math.random() * 5);
         Object computerChoice = null;
 
         switch (randomChoice) {
@@ -52,15 +61,26 @@ public class Game {
             case 2:
                 computerChoice = new Scissors();
                 break;
+            case 3:
+                computerChoice = new Lizard();
+                break;
+            case 4:
+                computerChoice = new Spock();
+                break;
         }
 
         if (playerChoice instanceof Rock) {
             return ((Rock) playerChoice).whoWins((Rock) computerChoice);
         } else if (playerChoice instanceof Paper) {
             return ((Paper) playerChoice).whoWins((Paper) computerChoice);
-        } else {
+        } else if (playerChoice instanceof Scissors) {
             return ((Scissors) playerChoice).whoWins((Scissors) computerChoice);
-            
+        } else if (playerChoice instanceof Lizard) {
+            return ((Lizard) playerChoice).whoWins((Lizard) computerChoice);
+        } else if (playerChoice instanceof Spock) {
+            return ((Spock) playerChoice).whoWins((Spock) computerChoice);
+        } else {
+            return "Invalid player choice!";
         }
     }
 
