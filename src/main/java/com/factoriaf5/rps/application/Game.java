@@ -1,74 +1,31 @@
 package com.factoriaf5.rps.application;
 
+import com.factoriaf5.rps.Factory.ChoiceFactory;
 import com.factoriaf5.rps.models.*;
 
 import java.util.Scanner;
 
 public class Game {
     public void start() {
-        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose your move: Rock, Paper, or Scissors");
+        System.out.println("Choose your move: Rock, Paper, Scissors, Lizard, or Spock");
         String userChoice = scanner.nextLine().toLowerCase();
 
-        Rock rock = new Rock();
-        Paper paper = new Paper();
-        Scissors scissors = new Scissors();
-        Lizard lizard = new Lizard();
-        Spock spock = new Spock();
+      
+        Object playerChoice = ChoiceFactory.createChoice(userChoice);
 
-        String result = "";
         
-
-        switch (userChoice) {
-            case "rock":
-                result = play(rock);
-                break;
-            case "paper":
-                result = play(paper);
-                break;
-            case "scissors":
-                result = play(scissors);
-                break;
-                case "lizard":
-                result = play(lizard);
-                break;
-            case "spock":
-                result = play(spock);
-                break;
-            default:
-                System.out.println("Invalid choice!");
-                return;
-        }
+        String result = play(playerChoice);
 
         System.out.println(result);
-               
     }
- 
-        
+
     private String play(Object playerChoice) {
        
         int randomChoice = (int) (Math.random() * 5);
-        Object computerChoice = null;
+        Object computerChoice = ChoiceFactory.createChoice(getChoiceNameByIndex(randomChoice));
 
-        switch (randomChoice) {
-            case 0:
-                computerChoice = new Rock();
-                break;
-            case 1:
-                computerChoice = new Paper();
-                break;
-            case 2:
-                computerChoice = new Scissors();
-                break;
-            case 3:
-                computerChoice = new Lizard();
-                break;
-            case 4:
-                computerChoice = new Spock();
-                break;
-        }
-
+        
         if (playerChoice instanceof Rock) {
             return ((Rock) playerChoice).whoWins((Rock) computerChoice);
         } else if (playerChoice instanceof Paper) {
@@ -80,13 +37,22 @@ public class Game {
         } else if (playerChoice instanceof Spock) {
             return ((Spock) playerChoice).whoWins((Spock) computerChoice);
         } else {
-            return "Invalid player choice!";
+            return "Invalid choice!";
+        }
+    }
+
+    private String getChoiceNameByIndex(int index) {
+        switch (index) {
+            case 0: return "rock";
+            case 1: return "paper";
+            case 2: return "scissors";
+            case 3: return "lizard";
+            case 4: return "spock";
+            default: return "rock"; 
         }
     }
 
     public static void main(String[] args) {
         new Game().start();
-       
-             
     }
 }
